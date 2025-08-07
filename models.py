@@ -10,6 +10,7 @@ class Boleta(db.Model):
     key_boleta = db.Column(db.String(255), nullable=False)
     procesa_isapre = db.Column(db.Boolean, default=False)
     response_isapre = db.Column(db.JSON)
+    key_response_isapre = db.Column(db.String(255))
     procesa_seguro = db.Column(db.Boolean, default=False)
     response_seguro = db.Column(db.JSON)
     half = db.Column(db.Float)

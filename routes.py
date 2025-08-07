@@ -28,6 +28,7 @@ def get_boleta(id_):
         "key_boleta": boleta.key_boleta,
         "procesa_isapre": boleta.procesa_isapre,
         "response_isapre": boleta.response_isapre,
+        "key_response_isapre": boleta.key_response_isapre,
         "procesa_seguro": boleta.procesa_seguro,
         "response_seguro": boleta.response_seguro,
         "half": boleta.half
@@ -43,6 +44,7 @@ def get_all_boletas():
             "key_boleta": b.key_boleta,
             "procesa_isapre": b.procesa_isapre,
             "response_isapre": b.response_isapre,
+            "key_response_isapre": b.key_response_isapre,
             "procesa_seguro": b.procesa_seguro,
             "response_seguro": b.response_seguro,
             "half": b.half
