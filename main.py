@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_cors import CORS
 from config import Config
 from models import db
 from routes import bp as boleta_routes
@@ -9,8 +10,10 @@ import logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s: %(message)s')
 
 app = Flask(__name__)
-app.config.from_object(Config)
+CORS(app)  # ← permite todos los orígenes
+# CORS(app, origins=["http://localhost:5173"])
 
+app.config.from_object(Config)
 db.init_app(app)
 register_error_handlers(app)
 app.register_blueprint(boleta_routes)
