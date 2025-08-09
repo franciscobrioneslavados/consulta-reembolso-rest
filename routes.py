@@ -75,3 +75,32 @@ def delete_boleta(id_):
     db.session.commit()
     logging.info(f'Boleta eliminada: {id_}')
     return jsonify({"message": "Boleta eliminada"})
+
+@bp.route('/boletas/upsert', methods=['POST'])
+def upsert_boleta():
+    try:
+        data = request.get_json()
+        
+        # Verificar si existe una boleta con el mismo id_boleta
+        existing_boleta = Boleta.query.filter_by(id_boleta=data.get('id_boleta')).first()
+        
+        if existing_boleta:
+            # Actualizar la boleta existente
+            for key, value in data.items():
+                if hasattr(existing_boleta, key) and key != 'id_':  # No actualizar el ID primario
+                    setattr(existing_boleta, key, value)
+            db.session.commit()
+            logging.info(f'Boleta actualizada: {existing_boleta.id_} (id_boleta: {data.get("id_boleta")})')
+            return jsonify({"message": "Boleta actualizada", "id": existing_boleta.id_}), 200
+        else:
+            # Crear nueva boleta
+            boleta = Boleta(**data)
+            db.session.add(boleta)
+            db.session.commit()
+            logging.info(f'Boleta creada: {boleta.id_} (id_boleta: {data.get("id_boleta")})')
+            return jsonify({"message": "Boleta creada", "id": boleta.id_}), 201
+            
+    except Exception as e:
+        db.session.rollback()
+        logging.error(f'Error en upsert boleta: {str(e)}')
+        return jsonify({"error": "Error al procesar boleta"}), 500
